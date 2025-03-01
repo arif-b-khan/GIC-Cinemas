@@ -1,0 +1,36 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Welcome to GIC Cinemas</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div *ngIf="loading$ | async" class="loading-spinner">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+      
+      <div *ngIf="(movie$ | async) as movie; else noMovie">
+        <div class="menu-list">
+          <button mat-raised-button color="primary" (click)="goToBookTickets()">
+            [1] Book tickets for {{ movie.title }} ({{ movie.available_seats }} seats available)
+          </button>
+          
+          <button mat-raised-button color="accent" (click)="goToCheckBookings()">
+            [2] Check bookings
+          </button>
+          
+          <button mat-raised-button color="warn" (click)="exit()">
+            [3] Exit
+          </button>
+        </div>
+      </div>
+      
+      <ng-template #noMovie>
+        <p *ngIf="!(loading$ | async)">No movie available. Please set up a movie first.</p>
+        <button mat-raised-button color="primary" (click)="goToMovieSetup()">
+          Set up movie
+        </button>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</div>

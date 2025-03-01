@@ -1,0 +1,77 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Check Bookings</mat-card-title>
+      <mat-card-subtitle *ngIf="movie$ | async as movie">
+        {{ movie.title }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div *ngIf="loading$ | async" class="loading-spinner">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+      
+      <div *ngIf="error$ | async as error" class="error-message">
+        {{ error }}
+      </div>
+      
+      <!-- Booking ID Entry -->
+      <div *ngIf="!(currentBooking$ | async)">
+        <form [formGroup]="bookingForm" (ngSubmit)="onCheckBooking()">
+          <p>Enter booking id, or enter blank to go back to main menu:</p>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Booking ID</mat-label>
+              <input matInput formControlName="bookingId" placeholder="e.g., GIC0001">
+              <mat-error *ngIf="bookingForm.get('bookingId')?.hasError('required')">
+                Booking ID is required
+              </mat-error>
+              <mat-error *ngIf="bookingForm.get('bookingId')?.hasError('pattern')">
+                Booking ID must be in the format GIC0000
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="form-actions">
+            <button mat-button type="button" (click)="goBack()">Back</button>
+            <button 
+              mat-raised-button 
+              color="primary" 
+              type="submit" 
+              [disabled]="bookingForm.invalid || (loading$ | async)">
+              Check Booking
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Booking Details -->
+      <div *ngIf="currentBooking$ | async as booking">
+        <h3>Booking id: {{ booking.booking_id }}</h3>
+        <p><strong>Number of tickets:</strong> {{ booking.num_tickets }}</p>
+        <p><strong>Selected seats:</strong></p>
+        
+        <!-- Seat Map Visualization -->
+        <app-seat-map 
+          [seatMap]="seatMap$ | async"
+          [selectedBookingId]="booking.booking_id">
+        </app-seat-map>
+        
+        <div class="seat-list">
+          <p><strong>Seats:</strong> 
+            <span *ngFor="let seat of booking.seats; let last = last">
+              {{ seat.seat_code }}{{ !last ? ', ' : '' }}
+            </span>
+          </p>
+        </div>
+        
+        <div class="form-actions">
+          <button mat-raised-button color="accent" (click)="bookingForm.reset()">Check Another Booking</button>
+          <button mat-raised-button color="primary" (click)="goBack()">Back to Main Menu</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

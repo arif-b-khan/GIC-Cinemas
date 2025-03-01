@@ -1,0 +1,27 @@
+<div class="seating-chart-container" *ngIf="seatingMap">
+  <div class="screen">
+    <div class="screen-label">S C R E E N</div>
+    <div class="screen-shape"></div>
+  </div>
+  
+  <div class="seats-container">
+    <div class="row" *ngFor="let row of rows">
+      <div class="row-label">{{ row }}</div>
+      <div class="seat" 
+           *ngFor="let col of columns" 
+           [ngClass]="getSeatStatus(row, col)">
+        <span *ngIf="getSeatStatus(row, col) === 'available'">.</span>
+        <span *ngIf="getSeatStatus(row, col) === 'booked'">#</span>
+        <span *ngIf="getSeatStatus(row, col) === 'selected'">o</span>
+        <span *ngIf="getSeatStatus(row, col) === 'highlighted'">o</span>
+      </div>
+    </div>
+    
+    <div class="row column-labels">
+      <div class="row-label"></div>
+      <div class="seat-number" *ngFor="let col of columns">
+        {{ col }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -227,3 +227,12 @@ Please enter your selection:
 
 Thank you for using GIC Cinemas system. Bye!
 ```
+
+### Backend application 
+Help create python webapi in backend make use of mysql. Python flask weapi application should have swagger implementation. It should use SqlAlchemy for orm. 
+
+### Frontend application
+Create separate client angular client application for front end. Front end application should use ngrx for state management make use of angular material design for ui components. 
+
+### Docker compose and docker images
+Create docker image for flask api and angular project. Create a docker compose file which will load the mysql and flask api and angular project as docker images

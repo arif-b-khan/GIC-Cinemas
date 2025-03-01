@@ -1,0 +1,55 @@
+<div class="seat-map-container" *ngIf="seatMap">
+  <div class="screen">
+    <div class="screen-text">S C R E E N</div>
+  </div>
+  
+  <div class="seats-grid">
+    <!-- Row labels -->
+    <div class="row-labels">
+      <div class="row-label" *ngFor="let row of rows">{{ row }}</div>
+    </div>
+    
+    <!-- Seats -->
+    <div class="seats">
+      <div class="seat-row" *ngFor="let row of rows">
+        <div 
+          class="seat" 
+          *ngFor="let col of columns"
+          [ngClass]="getSeatStatus(row, col)"
+          (click)="onSeatClick(row, col)"
+          [class.clickable]="isSeatClickable(row, col)">
+          {{ col }}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Column numbers -->
+  <div class="column-numbers">
+    <div class="column-number" *ngFor="let col of columns">{{ col }}</div>
+  </div>
+  
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="seat-sample available"></div>
+      <span>Available</span>
+    </div>
+    <div class="legend-item">
+      <div class="seat-sample booked"></div>
+      <span>Booked</span>
+    </div>
+    <div class="legend-item">
+      <div class="seat-sample current"></div>
+      <span>Current Selection</span>
+    </div>
+    <div class="legend-item" *ngIf="selectedBookingId">
+      <div class="seat-sample selected"></div>
+      <span>Selected Booking</span>
+    </div>
+  </div>
+</div>
+
+<div class="no-data" *ngIf="!seatMap">
+  No seat map data available.
+</div>

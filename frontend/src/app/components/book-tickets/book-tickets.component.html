@@ -1,0 +1,106 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Book Tickets</mat-card-title>
+      <mat-card-subtitle *ngIf="movie$ | async as movie">
+        {{ movie.title }} ({{ movie.available_seats }} seats available)
+      </mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div *ngIf="loading$ | async" class="loading-spinner">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+      
+      <div *ngIf="error$ | async as error" class="error-message">
+        {{ error }}
+      </div>
+      
+      <!-- Step 1: Enter number of tickets -->
+      <div *ngIf="!(currentBooking$ | async) && !(bookingConfirmed)">
+        <form [formGroup]="ticketsForm" (ngSubmit)="onBookTickets()">
+          <p>Enter number of tickets to book, or enter blank to go back to main menu:</p>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Number of Tickets</mat-label>
+              <input matInput formControlName="numTickets" type="number" min="1">
+              <mat-error *ngIf="ticketsForm.get('numTickets')?.hasError('required')">
+                Number of tickets is required
+              </mat-error>
+              <mat-error *ngIf="ticketsForm.get('numTickets')?.hasError('min')">
+                Minimum 1 ticket
+              </mat-error>
+              <mat-error *ngIf="ticketsForm.get('numTickets')?.hasError('notEnoughSeats')">
+                {{ ticketsForm.get('numTickets')?.errors?.['notEnoughSeats'] }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="form-actions">
+            <button mat-button type="button" (click)="goBack()">Back</button>
+            <button 
+              mat-raised-button 
+              color="primary" 
+              type="submit" 
+              [disabled]="ticketsForm.invalid || (loading$ | async)">
+              Book Tickets
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Step 2: Seat selection -->
+      <div *ngIf="(currentBooking$ | async) && !(bookingConfirmed)">
+        <div *ngIf="currentBooking$ | async as booking">
+          <h3>Successfully reserved {{ booking.num_tickets }} tickets.</h3>
+          <p><strong>Booking id:</strong> {{ booking.booking_id }}</p>
+          <p><strong>Selected seats:</strong></p>
+          
+          <!-- Seat Map Visualization -->
+          <app-seat-map 
+            [seatMap]="seatMap$ | async" 
+            [currentBookingId]="booking.booking_id"
+            (seatSelected)="onSeatSelected($event)">
+          </app-seat-map>
+          
+          <form [formGroup]="seatSelectionForm" (ngSubmit)="onChangeSeating()">
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Enter blank to accept seat selection, or enter new seating position</mat-label>
+                <input matInput formControlName="startSeat" placeholder="e.g., B03">
+              </mat-form-field>
+            </div>
+            
+            <div class="form-actions">
+              <button mat-button type="button" (click)="confirmBooking()">Accept Seats</button>
+              <button 
+                mat-raised-button 
+                color="primary" 
+                type="submit" 
+                [disabled]="!seatSelectionForm.get('startSeat')?.value || (loading$ | async)">
+                Change Seats
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Step 3: Booking confirmation -->
+      <div *ngIf="bookingConfirmed && (currentBooking$ | async) as booking">
+        <div class="booking-confirmation">
+          <h2>Booking id: {{ booking.booking_id }} confirmed.</h2>
+          <p>You have booked {{ booking.num_tickets }} seats for the movie.</p>
+          <div class="seat-list">
+            <p><strong>Your seats:</strong> 
+              <span *ngFor="let seat of booking.seats; let last = last">
+                {{ seat.seat_code }}{{ !last ? ', ' : '' }}
+              </span>
+            </p>
+          </div>
+          <button mat-raised-button color="primary" (click)="goBack()">Back to Main Menu</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
