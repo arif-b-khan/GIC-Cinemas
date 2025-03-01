@@ -128,6 +128,30 @@ ENV/
 env.bak/
 venv.bak/
 
+# Node.js / JavaScript / TypeScript
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm
+.yarn
+.pnp.*
+.eslintcache
+.node_repl_history
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+.next/
+out/
+.nuxt/
+dist/
+.cache/
+coverage/
+.DS_Store
+*.tsbuildinfo
+
 # Spyder project settings
 .spyderproject
 .spyproject
