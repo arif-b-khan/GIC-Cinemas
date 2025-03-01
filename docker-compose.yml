@@ -7,8 +7,8 @@ services:
     environment:
       MYSQL_DATABASE: cinema_db
       MYSQL_USER: cinema_user
-      MYSQL_PASSWORD: cinema_password
-      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_PASSWORD: arifkhan
+      MYSQL_ROOT_PASSWORD: arifkhan
     volumes:
       - db-data:/var/lib/mysql
     ports:
@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: mysql://cinema_user:cinema_password@db/cinema_db
+      DATABASE_URL: mysql://cinema_user:arifkhan@db/cinema_db
       FLASK_ENV: production
     ports:
       - "5000:5000"
