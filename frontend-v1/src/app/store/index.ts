@@ -4,8 +4,8 @@ import * as fromMovie from './reducers/movie.reducer';
 import * as fromBooking from './reducers/booking.reducer';
 
 export interface AppState {
-  movies: fromMovie.MovieState;
-  bookings: fromBooking.BookingState;
+  movies: fromMovie.State;
+  bookings: fromBooking.State;
 }
 
 export const reducers: ActionReducerMap<AppState> = {

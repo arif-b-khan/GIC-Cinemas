@@ -4,7 +4,6 @@ import { MovieSetupComponent } from './components/movie-setup/movie-setup.compon
 import { BookTicketsComponent } from './components/book-tickets/book-tickets.component';
 import { CheckBookingsComponent } from './components/check-bookings/check-bookings.component';
 
-
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'setup', component: MovieSetupComponent },

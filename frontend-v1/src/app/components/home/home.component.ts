@@ -6,9 +6,13 @@ import { AppState } from '../../store/reducers';
 import { Movie } from '../../models/movie.model';
 import * as MovieActions from '../../store/actions/movie.actions';
 import * as BookingActions from '../../store/actions/booking.actions';
+import { MaterialModule } from '../../material.module';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule, MaterialModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

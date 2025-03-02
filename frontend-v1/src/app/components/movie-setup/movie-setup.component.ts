@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducers';
 import * as MovieActions from '../../store/actions/movie.actions';
 import { Observable } from 'rxjs';
+import { MaterialModule } from '../../material.module';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-movie-setup',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, MaterialModule],
   templateUrl: './movie-setup.component.html',
   styleUrls: ['./movie-setup.component.scss']
 })
@@ -46,7 +50,7 @@ export class MovieSetupComponent implements OnInit {
       
       // Navigate back to home after creating movie
       this.store.select(state => state.movie.currentMovie)
-        .subscribe(movie => {
+        .subscribe((movie: any) => {
           if (movie) {
             this.router.navigate(['/']);
           }

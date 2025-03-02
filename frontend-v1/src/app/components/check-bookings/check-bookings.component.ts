@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -10,9 +10,14 @@ import { Booking } from '../../models/booking.model';
 import { SeatMap } from '../../models/seat-map.model';
 import * as MovieActions from '../../store/actions/movie.actions';
 import * as BookingActions from '../../store/actions/booking.actions';
+import { MaterialModule } from '../../material.module';
+import { CommonModule } from '@angular/common';
+import { SeatMapComponent } from '../seat-map/seat-map.component';
 
 @Component({
   selector: 'app-check-bookings',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, MaterialModule, SeatMapComponent],
   templateUrl: './check-bookings.component.html',
   styleUrls: ['./check-bookings.component.scss']
 })
