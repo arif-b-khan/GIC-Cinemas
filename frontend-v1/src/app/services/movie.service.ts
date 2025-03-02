@@ -22,7 +22,19 @@ export class MovieService {
   }
 
   createMovie(movie: Partial<Movie>): Observable<Movie> {
-    return this.http.post<Movie>(this.apiUrl, movie);
+    // Create a clean object with only the defined properties
+    const movieData = {
+      ...(movie.title && { title: movie.title }),
+      ...(movie.total_rows !== undefined && { total_rows: movie.total_rows }),
+      ...(movie.seats_per_row !== undefined && { seats_per_row: movie.seats_per_row })
+    };
+    
+    // Send as JSON, which is what Flask's request.get_json() expects
+    return this.http.post<Movie>(this.apiUrl, movieData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   getSeatingMap(movieId: number): Observable<SeatingMap> {

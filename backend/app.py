@@ -4,7 +4,9 @@ from flask_cors import CORS
 from api import api
 from models import db
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
+# Configure Flask to be more permissive with trailing slashes
+app.url_map.strict_slashes = False
 
 # Get allowed origins from environment or use default with fallback to localhost
 allowed_origins = os.environ.get('ALLOWED_ORIGINS', 'http://localhost:8080,http://127.0.0.1:8080')

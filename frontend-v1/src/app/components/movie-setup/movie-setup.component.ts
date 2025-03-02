@@ -49,7 +49,7 @@ export class MovieSetupComponent implements OnInit {
       }));
       
       // Navigate back to home after creating movie
-      this.store.select(state => state.movie.currentMo vie)
+      this.store.select(state => state.movie.currentMovie)
         .subscribe((movie: any) => {
           if (movie) {
             this.router.navigate(['/']);
