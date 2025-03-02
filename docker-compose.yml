@@ -28,7 +28,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ./frontend-v1
     restart: always
     ports:
       - "80:80"

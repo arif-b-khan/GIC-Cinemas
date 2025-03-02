@@ -4,13 +4,13 @@ import * as fromMovie from './reducers/movie.reducer';
 import * as fromBooking from './reducers/booking.reducer';
 
 export interface AppState {
-  movies: fromMovie.State;
-  bookings: fromBooking.State;
+  movie: fromMovie.State;  // Make sure this is 'movie' not 'movies'
+  booking: fromBooking.State;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-  movies: fromMovie.reducer,
-  bookings: fromBooking.reducer
+  movie: fromMovie.reducer,
+  booking: fromBooking.reducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];

@@ -13,6 +13,7 @@ export class MovieService {
   constructor(private http: HttpClient) { }
 
   getMovies(): Observable<Movie[]> {
+    console.log(`api url: ${this.apiUrl}`);
     return this.http.get<Movie[]>(this.apiUrl);
   }
 
