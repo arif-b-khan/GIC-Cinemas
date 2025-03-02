@@ -13,6 +13,8 @@ services:
       - db-data:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - cinema-network
 
   backend:
     build:
@@ -23,17 +25,26 @@ services:
     environment:
       DATABASE_URL: mysql://cinema_user:arifkhan@db/cinema_db
       FLASK_ENV: production
+      ALLOWED_ORIGINS: "http://localhost:8080,http://127.0.0.1:8080,http://frontend:8080"
     ports:
       - "5000:5000"
+    networks:
+      - cinema-network
 
   frontend:
     build:
       context: ./frontend-v1
     restart: always
     ports:
-      - "80:80"
+      - "8080:80"     # Changed from "80:80" to "8080:80"
     depends_on:
       - backend
+    networks:
+      - cinema-network
+
+networks:
+  cinema-network:
+    driver: bridge
 
 volumes:
   db-data:
